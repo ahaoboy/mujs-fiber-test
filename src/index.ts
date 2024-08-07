@@ -93,7 +93,7 @@ function recursion(root: VNode) {
 
 
 function fiber(root: FNode) {
-  let res = []
+  let res: number[] = []
   let current = root
   while (true) {
     res.push(current.id)
@@ -116,9 +116,27 @@ function fiber(root: FNode) {
   return res
 }
 
+function preStack(root: VNode) {
+  const res: number[] = []
+  const stack: VNode[] = [];
+  if (!root) return res;
+  stack.push(root);
+
+  while (stack.length !== 0) {
+    const top = stack.pop()!;
+    res.push(top.id)
+    const len = top.child.length
+    for (let i = 0; i < len; i++) {
+      const c = top.child[len - i - 1]
+      stack.push(c)
+    }
+  }
+  return res;
+};
 
 let time1 = []
 let time2 = []
+let time3 = []
 let countList = []
 const N = 100
 let TestCount = 10
@@ -128,6 +146,7 @@ for (let pow = 1; pow < N; pow++) {
   countList.push(COUNT)
   let sum1 = 0
   let sum2 = 0
+  let sum3 = 0
   for (let i = 0; i < TestCount; i++) {
     let root = getTree(COUNT, 16)
     // console.log(getNodeNum(root))
@@ -139,16 +158,21 @@ for (let pow = 1; pow < N; pow++) {
     let st1 = +new Date()
     let fiberRes = fiber(fiberLink)
     let ed1 = +new Date()
-    // console.log('fiber', ed1 - st1, 'dfs', ed2 - st2, fiberRes.join('') === dfsRes.join(''))
+    let st3 = +new Date()
+    let preRes = preStack(root)
+    let ed3 = +new Date()
+    // console.log('fiber', ed1 - st1, 'dfs', ed2 - st2, fiberRes.join('') === preRes.join(''), fiberRes.join(''), preRes.join(''), dfsRes.join(''))
     // console.log(getNodeNum(root), fiberRes.length)
     // console.log(dfsRes.join(','))
     // time1.push(ed1 - st1)
     // time2.push(ed2 - st2)
     sum1 += (ed1 - st1)
     sum2 += (ed2 - st2)
+    sum3 += (ed3 - st3)
   }
   time1.push(sum1 / TestCount)
   time2.push(sum2 / TestCount)
+  time3.push(sum3 / TestCount)
 }
 
 declare var print: (...args: any[]) => void
@@ -157,5 +181,6 @@ declare var console: { log: (...args: any[]) => void }
 const log = typeof console !== 'undefined' ? console.log : print
 log(time1.join(','))
 log(time2.join(','))
+log(time3.join(','))
 log(countList.join(','))
 
