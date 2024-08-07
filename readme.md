@@ -15,4 +15,4 @@ bash run.sh
 ```
 
 ### html
-[chart](docs/index.html)
+[online chart](https://ahaoboy.github.io/mujs-fiber-test/)
