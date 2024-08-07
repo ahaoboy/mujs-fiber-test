@@ -15,4 +15,4 @@ bash run.sh
 ```
 
 ### html
-[chart](assets/index.html)
+[chart](docs/index.html)
