@@ -140,7 +140,7 @@ let time3 = []
 let countList = []
 const N = 100
 let TestCount = 10
-const ChildCount = 100
+const ChildCount = 32
 for (let pow = 1; pow < N; pow++) {
   let COUNT = ChildCount * pow
   countList.push(COUNT)
@@ -152,12 +152,12 @@ for (let pow = 1; pow < N; pow++) {
     // console.log(getNodeNum(root))
     // let root = getBinTree(COUNT)
     let fiberLink = tree2fiber(root)
-    let st2 = +new Date()
-    let dfsRes = recursion(root)
-    let ed2 = +new Date()
     let st1 = +new Date()
     let fiberRes = fiber(fiberLink)
     let ed1 = +new Date()
+    let st2 = +new Date()
+    let dfsRes = recursion(root)
+    let ed2 = +new Date()
     let st3 = +new Date()
     let preRes = preStack(root)
     let ed3 = +new Date()
@@ -177,10 +177,14 @@ for (let pow = 1; pow < N; pow++) {
 
 declare var print: (...args: any[]) => void
 declare var console: { log: (...args: any[]) => void }
-
 const log = typeof console !== 'undefined' ? console.log : print
-log(time1.join(','))
-log(time2.join(','))
-log(time3.join(','))
-log(countList.join(','))
+
+const json = {
+  fiber: time1,
+  recursion: time2,
+  stack: time3,
+  countList
+}
+
+log(JSON.stringify(json))
 
